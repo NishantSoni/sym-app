@@ -41,8 +41,33 @@ class PostController extends Controller
     /**
      * @Route("/post/update/{postId}", name="post_update")
      */
-    public function updatePost($postId)
+    public function updatePost(Request $request, $postId)
     {
+        $post = $this->postService->getRecord($postId);
+        if(!empty($post))
+        {
+        	$post->setTitle($post->getTitle());
+        	$post->setDescription($post->getDescription());
+        	$post->setCategory($post->getCategory());
+
+        	$form = $this->createForm(PostCreateType::class, $post);
+
+        	$form->handleRequest($request);
+
+			if ($form->isSubmitted() && $form->isValid())
+			{
+				$this->postService->updateRecord($form->getData() , $postId);
+				$this->addFlash('success_flash', 'Post updated successfully.!!');
+
+				return $this->redirectToRoute('post_show');
+			}
+
+			return $this->render('Frontend/updatePost.html.twig' , ['post' => $post , 'UpdatePostform' => $form->createView()]);
+        }else{
+        	$this->addFlash('error_flash', 'Post is not found for the given ID...!!');
+
+        	return $this->render('Frontend/updatePost.html.twig' , ['post' => $post]);
+        }
         
     }
 

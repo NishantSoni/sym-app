@@ -29,4 +29,14 @@ class PostService
         $this->em->flush(); 
         return true;
 	}
+
+	public function updateRecord($updatedData , $id)
+	{
+		$post = $this->em->getRepository(Post::class)->find($id);
+		$post->setTitle($updatedData->getTitle());
+		$post->setDescription($updatedData->getDescription());
+		$post->setCategory($updatedData->getCategory());
+		$this->em->flush(); 
+		return;
+	}
 }
