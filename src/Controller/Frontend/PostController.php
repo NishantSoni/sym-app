@@ -5,13 +5,18 @@ namespace App\Controller\Frontend;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Service\Frontend\PostService;
+use App\Form\Frontend\PostCreateType;
+use App\Entity\Post;
+use Symfony\Component\HttpFoundation\Request;
 
 class PostController extends Controller
 {
 	private $postService;
+	private $postEntity;
 
 	public function __construct(PostService $postServiceInstance)
 	{
+		$this->postEntity = new Post();
 		$this->postService = $postServiceInstance;
 	}
 
@@ -52,9 +57,21 @@ class PostController extends Controller
     /**
      * @Route("/post/create", name="post_create")
      */
-    public function createPost()
+    public function createPost(Request $request)
     {
-        
+        $form = $this->createForm(PostCreateType::class, $this->postEntity); 
+
+        $form->handleRequest($request);
+
+		if ($form->isSubmitted() && $form->isValid())
+		{
+			$this->postService->createRecord($form->getData());
+			$this->addFlash('success_flash', 'Post created successfully.!!');
+
+			return $this->redirectToRoute('post_show');
+		}
+         
+        return $this->render('Frontend/createPost.html.twig' , ['CreatePostform' => $form->createView()]);
     }
 
 

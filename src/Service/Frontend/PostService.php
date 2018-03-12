@@ -22,4 +22,11 @@ class PostService
 	{
 		return $this->em->getRepository(Post::class)->find($id);
 	}
+
+	public function createRecord($data)
+	{
+		$this->em->persist($data);
+        $this->em->flush(); 
+        return true;
+	}
 }
