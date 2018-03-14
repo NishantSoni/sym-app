@@ -18,15 +18,33 @@ class PostController extends Controller
 	{
 		$this->postEntity = new Post();
 		$this->postService = $postServiceInstance;
-	}
+    }
+    
+    /**
+     * @Route("/", name="route_test")
+     */
+    public function index()
+    {
+        return $this->render('base.html.twig');
+    }
 
     /**
      * @Route("/post/show", name="post_show")
      */
-    public function showAllPost()
+    public function showAllPost(Request $request)
     {
-    	$posts = $this->postService->getAllRecords();
-    	return $this->render('Frontend/showPost.html.twig' , ['posts' => $posts]);
+        $posts = $this->postService->getAllRecords();
+        
+        /** 
+         * @var $paginator \Knp\component\pager\paginator
+         */
+        $paginator = $this->get('knp_paginator');
+        $result = $paginator->paginate(
+                        $posts,
+                        $request->query->getInt('page' , 1),
+                        $request->query->getInt('limit', 5)
+                    );
+        return $this->render('Frontend/showPost.html.twig' , ['posts' => $result]);
     }
 
     /**
@@ -76,7 +94,26 @@ class PostController extends Controller
      */
     public function deletePost($postId)
     {
-        
+        if($postId >= 0)
+        {
+            $result = $this->postService->deleteRecord($postId);
+            if($result)
+            {
+                $this->addFlash('success_flash', 'Post deleted successfully.!!');
+
+                return $this->redirectToRoute('post_show');
+            }else{
+                $this->addFlash('error_flash', 'Post is not found for the given ID...!!');
+
+                return $this->redirectToRoute('post_show');
+            }
+        }
+        else
+        {
+            $this->addFlash('error_flash', 'Post is not found for the given ID...!!');
+
+            return $this->redirectToRoute('post_show');
+        }
     }
 
     /**

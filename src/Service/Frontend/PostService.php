@@ -39,4 +39,16 @@ class PostService
 		$this->em->flush(); 
 		return;
 	}
+
+	public function deleteRecord($id)
+	{
+		$post = $this->em->getRepository(Post::class)->find($id);
+		if(!empty($post))
+		{
+			$this->em->remove($post);
+			$this->em->flush(); 
+			return true;
+		}
+		return false;
+	}
 }
