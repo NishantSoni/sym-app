@@ -22,8 +22,15 @@
             <p class="card-text text-info text-info"><input type="checkbox" id="remember_me" name="_remember_me" value="on" />
             <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label></p>
 
-            <p class="card-text"><input class="btn btn-info badge-info" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" /></p>
+            <p class="card-text">
+                <input class="btn btn-info badge-info" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
+            </p>
         </form>
 
+        <p>
+            <div class="list-group">
+                <small class="text-muted">Not registered yet ? click here to <a href="/register" class="text-info">SIGN-UP</a></small>
+            </div>
+        </p>
   </div>
 </div>
