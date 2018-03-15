@@ -1,0 +1,22 @@
+body{
+    background: rgb(122, 125, 128);
+}
+  
+  div.well{
+    height: 350px;
+  } 
+  
+  .Absolute-Center {
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+  }
+  
+  .Absolute-Center.is-Responsive {
+    width: 90%; 
+    height: 90%;
+    min-width: 400px;
+    max-width: 500px;
+    padding: 20px;
+  }
+  
