@@ -25,7 +25,12 @@ class PostController extends Controller
      */
     public function index()
     {
-        return $this->render('base.html.twig');
+        $securityContext = $this->container->get('security.authorization_checker');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('post_show');
+        }else{
+            return $this->redirect('login');
+        }
     }
 
     /**
@@ -44,7 +49,7 @@ class PostController extends Controller
                         $request->query->getInt('page' , 1),
                         $request->query->getInt('limit', 5)
                     );
-        return $this->render('Frontend/showPost.html.twig' , ['posts' => $result]);
+        return $this->render('Frontend/showPost.html.twig' , ['posts' => $posts , 'active' => true]);
     }
 
     /**

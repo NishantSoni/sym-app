@@ -1,44 +1,40 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-
-<div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
-  <div class="card-header list-group-item list-group-item-action active" style="text-align:center;"><h3 class="text-info">SIGN IN</h3></div>
-  <div class="card-body" style="text-align:center;">
-        
+<div class="card card-register mx-auto mt-5">
+      <div class="card-header">Register an Account</div>
+      <div class="card-body">
         <form action="{{ path("fos_user_registration_register") }}" method="post">
-            
             <div class="form-group">
-                <p class="card-text text-info"><label for="fos_user_registration_form_email" class="required">Email</label>
-                <input type="email" id="fos_user_registration_form_email" name="fos_user_registration_form[email]" required="required" /></p>
+                <label for="fos_user_registration_form_email" class="required">Email</label>
+                <input class="form-control" type="email" id="fos_user_registration_form_email" name="fos_user_registration_form[email]" required="required" aria-describedby="nameHelp" placeholder="Enter Email"/>
+            </div>  
+
+            <div class="form-group">  
+                <label for="fos_user_registration_form_username" class="required">Username</label>
+                <input class="form-control" type="text" id="fos_user_registration_form_username" name="fos_user_registration_form[username]" required="required" maxlength="180" pattern=".{2,}" placeholder="Enter Username"/>
+              
             </div>
 
             <div class="form-group">
-                <p class="card-text text-info text-info"><label for="fos_user_registration_form_username" class="required">Username</label>
-                <input type="text" id="fos_user_registration_form_username" name="fos_user_registration_form[username]" required="required" maxlength="180" pattern=".{2,}" /></p>
+                <label for="fos_user_registration_form_plainPassword_first" class="required">Password</label>
+                <input class="form-control" type="password" id="fos_user_registration_form_plainPassword_first" name="fos_user_registration_form[plainPassword][first]" required="required" autocomplete="new-password" placeholder="Enter Password"/>
             </div>
 
             <div class="form-group">
-                <p class="card-text text-info text-info"><label for="fos_user_registration_form_plainPassword_first" class="required">Password</label>
-                <input type="password" id="fos_user_registration_form_plainPassword_first" name="fos_user_registration_form[plainPassword][first]" required="required" autocomplete="new-password" /></p>
-            </div>
-
-            <div class="form-group">
-                <p class="card-text text-info text-info"><label for="fos_user_registration_form_plainPassword_second" class="required">Repeat password</label>
-                <input type="password" id="fos_user_registration_form_plainPassword_second" name="fos_user_registration_form[plainPassword][second]" required="required" autocomplete="new-password" /></p>
+                <label for="fos_user_registration_form_plainPassword_second" class="required">Repeat password</label>
+                <input class="form-control" type="password" id="fos_user_registration_form_plainPassword_second" name="fos_user_registration_form[plainPassword][second]" required="required" autocomplete="new-password" placeholder="Enter password again"/>
             </div>
 
             {{ form_row(form._token) }}
 
-            <p class="card-text">
-                <input class="btn btn-info badge-info" type="submit" id="_submit" name="_submit" value="{{ 'registration.submit'|trans }}" />
-            </p>
-
+            <input class="btn btn-primary btn-block" type="submit" id="_submit" name="_submit" value="{{ 'registration.submit'|trans }}" />
         </form>
+        
+      </div>
 
-        <p>
-            <div class="list-group">
-                <small class="text-muted">Already registered ? click here to <a href="/login" class="text-info">SIGN-IN</a></small>
-            </div>
-        </p>
+      <div class="card-footer text-center">
+            Already have an account ? <a href="/login">Login Here</a>
+            <br>
+            Forgot password ? <a href="/resetting/request">Reset Here</a>
+        </div>
     </div>
-</div> 

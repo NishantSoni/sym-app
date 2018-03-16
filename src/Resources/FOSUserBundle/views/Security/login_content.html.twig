@@ -1,36 +1,39 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-<div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
-  <div class="card-header list-group-item list-group-item-action active" style="text-align:center;"><h3 class="text-info">SIGN IN</h3></div>
-  <div class="card-body" style="text-align:center;">
+<div class="card card-login mx-auto mt-5">
+      <div class="card-header">Login</div>
+      <div class="card-body">
 
         {% if error %}
             <div class="text-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
 
         <form action="{{ path("fos_user_security_check") }}" method="post">
+
             {% if csrf_token %}
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
             {% endif %}
 
-            <p class="card-text text-info"><label for="username">{{ 'security.login.username'|trans }}</label>
-            <input class="border-info" type="text" id="username" name="_username" value="{{ last_username }}" required="required" autocomplete="username" /></p>
-
-            <p class="card-text text-info text-info"><label for="password">{{ 'security.login.password'|trans }}</label>
-            <input class="border-info" type="password" id="password" name="_password" required="required" autocomplete="current-password" /></p>
-
-            <p class="card-text text-info text-info"><input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-            <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label></p>
-
-            <p class="card-text">
-                <input class="btn btn-info badge-info" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
-            </p>
-        </form>
-
-        <p>
-            <div class="list-group">
-                <small class="text-muted">Not registered yet ? click here to <a href="/register" class="text-info">SIGN-UP</a></small>
+          <div class="form-group">
+            <label for="username">{{ 'security.login.username'|trans }}</label>
+            <input class="form-control" type="text" id="username" aria-describedby="emailHelp" name="_username" value="{{ last_username }}" required="required" autocomplete="username" placeholder="Enter email"/>
+          </div>
+          <div class="form-group">
+            <label for="password">{{ 'security.login.password'|trans }}</label>
+            <input class="form-control" type="password" id="password" name="_password" required="required" autocomplete="current-password" placeholder="Enter Password"/></p>
+          </div>
+          <div class="form-group">
+            <div class="form-check">
+                <label class="form-check-label" for="remember_me">
+                    <input type="checkbox" id="remember_me" name="_remember_me" value="on"  class="form-check-input"/>{{ 'security.login.remember_me'|trans }}
+                </lable>
             </div>
-        </p>
-  </div>
-</div>
+          </div>
+          <input type="submit" class="btn btn-primary btn-block" value="Login" />
+        </form>
+        <div class="text-center">
+          <a class="d-block small mt-3" href="/register">Register an Account</a>
+          <a class="d-block small" href="forgot-password.html">Forgot Password?</a>
+        </div>
+      </div>
+    </div>
