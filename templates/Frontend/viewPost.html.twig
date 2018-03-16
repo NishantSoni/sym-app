@@ -1,23 +1,28 @@
 {{ include('Frontend/layout/header.html.twig') }}
-	
-	{% if post %}
+	<div class="container-fluid">
+		{% if post %}
 
-		<h3>Post Details :</h3>
-		<div class="card">
-		  <div class="card-body">
-		    <h4 class="card-title">{{ post.title }}</h4>
-		    <h6 class="card-subtitle mb-2 text-muted">Post-ID :{{ post.id }}</h6>
-		    <p class="card-text">{{ post.description }}</p>
-		    <a href="/post/show" class="card-link"> <span class="badge badge-info">Back</span> </a>
-		  </div>
-		</div>
+			<ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          Post Details :
+        </li>
+      </ol>
 
-	{% else %}
-		<div class="alert alert-dismissible alert-warning">
-		  	<h4 class="alert-heading">Oops !!</h4>
-		  	<p class="mb-0">Records Not found for the given id...!!</p>
-		</div>
-	{% endif %}	
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">{{ post.title }}</h4>
+					<h6 class="card-subtitle mb-2 text-muted">Post-ID :{{ post.id }}</h6>
+					<p class="card-text">{{ post.description }}</p>
+					<a href="/post/show" class="card-link"> <span class="badge badge-info">Back</span> </a>
+				</div>
+			</div>
 
+		{% else %}
+			<div class="alert alert-dismissible alert-warning">
+					<h4 class="alert-heading">Oops !!</h4>
+					<p class="mb-0">Records Not found for the given id...!!</p>
+			</div>
+		{% endif %}	
+	</div>
 
 {{ include('Frontend/layout/footer.html.twig') }}

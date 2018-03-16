@@ -1,7 +1,15 @@
 {{ include('Frontend/layout/header.html.twig') }}
-	<h3>Create Post</h3>
-	{{ form_start(CreatePostform)}}
-	{{ form_widget(CreatePostform) }}
-	{{ form_end(CreatePostform) }}
+	<div class="container-fluid">
+
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				Create Post :
+			</li>
+		</ol>
+		{{ form_start(CreatePostform)}}
+		{{ form_widget(CreatePostform) }}
+		{{ form_end(CreatePostform) }}
+
+	</div>
 
 {{ include('Frontend/layout/footer.html.twig') }}

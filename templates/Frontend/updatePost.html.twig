@@ -1,11 +1,15 @@
 {{ include('Frontend/layout/header.html.twig') }}
 
 {{ include('Frontend/layout/flash.html.twig') }}
-	
-	<h3>Update Post</h3>
-	{{ form_start(UpdatePostform)}}
-	{{ form_widget(UpdatePostform) }}
-	{{ form_end(UpdatePostform) }}
-	<a href="/post/show"><button type="button" class="btn btn-info" style="margin-top:5px;">Back</button></a>
-	
+	<div class="container-fluid">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+			 Update Post
+			</li>
+		</ol>
+		{{ form_start(UpdatePostform)}}
+		{{ form_widget(UpdatePostform) }}
+		{{ form_end(UpdatePostform) }}
+		<a href="/post/show"><button type="button" class="btn btn-info" style="margin-top:5px;">Back</button></a>
+	</div>
 {{ include('Frontend/layout/footer.html.twig') }}
