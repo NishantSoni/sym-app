@@ -1,3 +1,6 @@
+{{ include('Frontend/layout/fos_header.html.twig') }}
+
+
 {% trans_default_domain 'FOSUserBundle' %}
 
 <div class="card card-login mx-auto mt-5">
@@ -33,7 +36,9 @@
         </form>
         <div class="text-center">
           <a class="d-block small mt-3" href="/register">Register an Account</a>
-          <a class="d-block small" href="forgot-password.html">Forgot Password?</a>
+          <a class="d-block small" href="/resetting/request">Forgot Password?</a>
         </div>
       </div>
     </div>
+
+{{ include('Frontend/layout/fos_footer.html.twig') }}

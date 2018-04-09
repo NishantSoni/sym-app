@@ -1,8 +1,13 @@
-{% trans_default_domain 'FOSUserBundle' %}
+{{ include('Frontend/layout/header.html.twig') }}
+    {% trans_default_domain 'FOSUserBundle' %}
 
-{{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
-    {{ form_widget(form) }}
-    <div>
-        <input type="submit" value="{{ 'profile.edit.submit'|trans }}" />
-    </div>
-{{ form_end(form) }}
+    {{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
+        {{ form_widget(form.username) }}
+        {{ form_widget(form.email) }}
+        {{ form_widget(form.firstname) }}
+        <div>
+            <input type="submit" value="{{ 'profile.edit.submit'|trans }}" />
+        </div>
+    {{ form_end(form) }}
+
+{{ include('Frontend/layout/footer.html.twig') }}

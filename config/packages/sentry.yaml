@@ -1,0 +1,4 @@
+sentry:
+    options:
+        curl_method: async
+    dsn: "https://0d0597744781454682ad9981f2603382:27ba3f3435894e17928b2ecdcfa73065@sentry.io/1181469"

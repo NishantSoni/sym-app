@@ -25,6 +25,7 @@ class PostController extends Controller
      */
     public function index()
     {
+
         $securityContext = $this->container->get('security.authorization_checker');
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('post_show');
