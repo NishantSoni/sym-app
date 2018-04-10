@@ -11,23 +11,47 @@ use Symfony\Component\HttpFoundation\Request;
 
 class PostController extends Controller
 {
-	private $postService;
+    /**
+     * PostService instance
+     *
+     * @var instance 
+     */
+    private $postService;
+    
+    /**
+     * PostEntity form object
+     *
+     * @var instance
+     */
 	private $postEntity;
 
+    /**
+     * Service container implementation
+     *
+     * @param Instance
+     */
 	public function __construct(PostService $postServiceInstance)
 	{
-		$this->postEntity = new Post();
-		$this->postService = $postServiceInstance;
+		$this->postEntity = new Post(); // Created the instance of the class then use it, normal process
+		$this->postService = $postServiceInstance; // Example of Symfony service container
     }
     
     /**
      * @Route("/", name="route_test")
+     * 
+     * Method to check user is logged in or not and to redirect
+     * 
+     * @return route 
      */
     public function index()
     {
 
         $securityContext = $this->container->get('security.authorization_checker');
-        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY') && $securityContext->isGranted('ROLE_ADMIN'))
+        {
+            return $this->redirect('admin');
+        }else if($securityContext->isGranted('IS_AUTHENTICATED_FULLY') && !$securityContext->isGranted('ROLE_ADMIN'))
+        {
             return $this->redirectToRoute('post_show');
         }else{
             return $this->redirect('login');
@@ -36,6 +60,11 @@ class PostController extends Controller
 
     /**
      * @Route("/post/show", name="post_show")
+     * 
+     * Method to show all the posts
+     * 
+     * @param request
+     * @return HTML
      */
     public function showAllPost(Request $request)
     {
@@ -55,6 +84,11 @@ class PostController extends Controller
 
     /**
      * @Route("/post/view/{postId}", name="post_view")
+     * 
+     * Method to view the single post
+     * 
+     * @param Integer
+     * @return Html
      */
     public function viewPost($postId)
     {
@@ -64,6 +98,12 @@ class PostController extends Controller
 
     /**
      * @Route("/post/update/{postId}", name="post_update")
+     * 
+     * Method to update the post
+     * 
+     * @param Request
+     * @param Integer
+     * @return Html
      */
     public function updatePost(Request $request, $postId)
     {
@@ -80,10 +120,16 @@ class PostController extends Controller
 
 			if ($form->isSubmitted() && $form->isValid())
 			{
-				$this->postService->updateRecord($form->getData() , $postId);
-				$this->addFlash('success_flash', 'Post updated successfully.!!');
-
-				return $this->redirectToRoute('post_show');
+                $result = $this->postService->updateRecord($form->getData() , $postId);
+                if($result)
+                {
+                    $this->addFlash('success_flash', 'Post updated successfully.!!');
+                }else
+                {
+                    $this->addFlash('error_flash', 'Post not updated, something is wrong...!!');
+                }
+                
+                return $this->redirectToRoute('post_show');
 			}
 
 			return $this->render('Frontend/updatePost.html.twig' , ['post' => $post , 'UpdatePostform' => $form->createView()]);
@@ -92,11 +138,15 @@ class PostController extends Controller
 
         	return $this->render('Frontend/updatePost.html.twig' , ['post' => $post]);
         }
-        
     }
 
     /**
      * @Route("/post/delete/{postId}", name="post_delete")
+     * 
+     * Method to delete the posts
+     * 
+     * @param integer
+     * @return Html
      */
     public function deletePost($postId)
     {
@@ -106,13 +156,11 @@ class PostController extends Controller
             if($result)
             {
                 $this->addFlash('success_flash', 'Post deleted successfully.!!');
-
-                return $this->redirectToRoute('post_show');
-            }else{
+            }else
+            {
                 $this->addFlash('error_flash', 'Post is not found for the given ID...!!');
-
-                return $this->redirectToRoute('post_show');
             }
+            return $this->redirectToRoute('post_show');
         }
         else
         {
@@ -124,6 +172,11 @@ class PostController extends Controller
 
     /**
      * @Route("/post/create", name="post_create")
+     * 
+     * Method to create the posts
+     * 
+     * @param request
+     * @return html
      */
     public function createPost(Request $request)
     {
@@ -131,16 +184,20 @@ class PostController extends Controller
 
         $form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid())
+		if($form->isSubmitted() && $form->isValid())
 		{
-			$this->postService->createRecord($form->getData());
-			$this->addFlash('success_flash', 'Post created successfully.!!');
-
-			return $this->redirectToRoute('post_show');
+            $result = $this->postService->createRecord($form->getData());
+            if($result)
+            {
+                $this->addFlash('success_flash', 'Post created successfully.!!');
+            }else
+            {
+                $this->addFlash('error_flash', 'Post is not created...!!');
+            }
+            
+            return $this->redirectToRoute('post_show');
 		}
          
         return $this->render('Frontend/createPost.html.twig' , ['CreatePostform' => $form->createView()]);
     }
-
-
 }

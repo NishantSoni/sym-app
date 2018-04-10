@@ -1,9 +1,18 @@
-{% extends "@FOSUser/layout.html.twig" %}
+{{ include('Frontend/layout/fos_header.html.twig') }}
 
-{% trans_default_domain 'FOSUserBundle' %}
+    {% trans_default_domain 'FOSUserBundle' %}
 
-{% block fos_user_content %}
-<p>
-{{ 'resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime})|nl2br }}
-</p>
-{% endblock %}
+    <div class="card card-login mx-auto mt-5">
+        <div class="card-header text-success">Reset Password Link Sent</div>
+        <div class="card-body">
+
+            {% block fos_user_content %}
+            <p>
+            {{ 'resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime})|nl2br }}
+            </p>
+            {% endblock %}
+            
+        </div>
+    </div>
+
+{{ include('Frontend/layout/fos_footer.html.twig') }}
