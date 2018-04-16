@@ -1,0 +1,29 @@
+{{ include('Backend/layout/header.html.twig') }}
+	<div class="container-fluid">
+		{% if user %}
+
+			<ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          User Details :
+        </li>
+      </ol>
+
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">{{ user.email }}</h4>
+					<h6 class="card-subtitle mb-2 text-muted">User-ID : {{ user.id }}</h6>
+					<p class="card-text">User Name : {{ user.username }}</p>
+                    <p class="card-text">User Role : User</p>
+					<a href="/admin/users" class="card-link"> <span class="badge badge-info">Back</span> </a>
+				</div>
+			</div>
+
+		{% else %}
+			<div class="alert alert-dismissible alert-warning">
+					<h4 class="alert-heading">Oops !!</h4>
+					<p class="mb-0">Records Not found for the given id...!!</p>
+			</div>
+		{% endif %}	
+	</div>
+
+{{ include('Backend/layout/footer.html.twig') }}

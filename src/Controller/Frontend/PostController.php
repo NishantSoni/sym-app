@@ -49,11 +49,12 @@ class PostController extends Controller
         $securityContext = $this->container->get('security.authorization_checker');
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY') && $securityContext->isGranted('ROLE_ADMIN'))
         {
-            return $this->redirect('admin');
+            return $this->redirect('admin/dashboard');
         }else if($securityContext->isGranted('IS_AUTHENTICATED_FULLY') && !$securityContext->isGranted('ROLE_ADMIN'))
         {
             return $this->redirectToRoute('post_show');
-        }else{
+        }else
+        {
             return $this->redirect('login');
         }
     }
@@ -92,8 +93,22 @@ class PostController extends Controller
      */
     public function viewPost($postId)
     {
-    	$post = $this->postService->getRecord($postId);
-        return $this->render('Frontend/viewPost.html.twig' , ['post' => $post]);
+        if($postId > 0)
+        {
+            $post = $this->postService->getRecord($postId);
+            if(!empty($post))
+            {
+                return $this->render('Frontend/viewPost.html.twig' , ['post' => $post]);
+            }else
+            {
+                $this->addFlash('error_flash', 'Post is not found for the given ID...!!');
+            }
+        }else
+        {
+            $this->addFlash('error_flash', 'Post is not found for the given ID...!!');
+        }
+
+        return $this->redirectToRoute('post_show');
     }
 
     /**
@@ -107,37 +122,44 @@ class PostController extends Controller
      */
     public function updatePost(Request $request, $postId)
     {
-        $post = $this->postService->getRecord($postId);
-        if(!empty($post))
+        if($postId > 0)
         {
-        	$post->setTitle($post->getTitle());
-        	$post->setDescription($post->getDescription());
-        	$post->setCategory($post->getCategory());
+            $post = $this->postService->getRecord($postId);
+            if(!empty($post))
+            {
+                $post->setTitle($post->getTitle());
+                $post->setDescription($post->getDescription());
+                $post->setCategory($post->getCategory());
 
-        	$form = $this->createForm(PostCreateType::class, $post);
+                $form = $this->createForm(PostCreateType::class, $post);
 
-        	$form->handleRequest($request);
+                $form->handleRequest($request);
 
-			if ($form->isSubmitted() && $form->isValid())
-			{
-                $result = $this->postService->updateRecord($form->getData() , $postId);
-                if($result)
+                if ($form->isSubmitted() && $form->isValid())
                 {
-                    $this->addFlash('success_flash', 'Post updated successfully.!!');
-                }else
-                {
-                    $this->addFlash('error_flash', 'Post not updated, something is wrong...!!');
+                    $result = $this->postService->updateRecord($form->getData() , $postId);
+                    if($result)
+                    {
+                        $this->addFlash('success_flash', 'Post updated successfully.!!');
+                    }else
+                    {
+                        $this->addFlash('error_flash', 'Post not updated, something is wrong...!!');
+                    }
+                    
+                    return $this->redirectToRoute('post_show');
                 }
-                
-                return $this->redirectToRoute('post_show');
-			}
 
-			return $this->render('Frontend/updatePost.html.twig' , ['post' => $post , 'UpdatePostform' => $form->createView()]);
-        }else{
-        	$this->addFlash('error_flash', 'Post is not found for the given ID...!!');
-
-        	return $this->render('Frontend/updatePost.html.twig' , ['post' => $post]);
+                return $this->render('Frontend/updatePost.html.twig' , ['post' => $post , 'UpdatePostform' => $form->createView()]);
+            }else
+            {
+                $this->addFlash('error_flash', 'Post is not found for the given ID...!!');
+            }
+        }else
+        {
+            $this->addFlash('error_flash', 'Post is not found for the given ID...!!');
         }
+        
+        return $this->redirectToRoute('post_show');
     }
 
     /**
@@ -150,7 +172,7 @@ class PostController extends Controller
      */
     public function deletePost($postId)
     {
-        if($postId >= 0)
+        if($postId > 0)
         {
             $result = $this->postService->deleteRecord($postId);
             if($result)
@@ -161,8 +183,7 @@ class PostController extends Controller
                 $this->addFlash('error_flash', 'Post is not found for the given ID...!!');
             }
             return $this->redirectToRoute('post_show');
-        }
-        else
+        }else
         {
             $this->addFlash('error_flash', 'Post is not found for the given ID...!!');
 

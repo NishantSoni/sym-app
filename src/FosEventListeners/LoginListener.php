@@ -56,10 +56,13 @@ class LoginListener implements EventSubscriberInterface
         
         // $user = $this->container->get('security.token_storage')->getToken()->getUser();
         // Check if user is admin then 
-        
+
         if($this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
         {
             return new RedirectResponse($this->router->generate('admin_home_route'));
+        }else
+        {
+            return new RedirectResponse($this->router->generate('post_show'));
         }
     }
 }

@@ -1,0 +1,59 @@
+{{ include('Backend/layout/header.html.twig') }}
+{{ include('Backend/layout/flash.html.twig') }}
+
+	<div class="container-fluid">
+		
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				All Users :
+			</li>
+		</ol>
+
+		<div class="table-responsive">
+			<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+				<thead>
+					<tr>
+					<th>ID</th>
+					<th>User Name</th>
+					<th>User Email</th>
+					<th>Status</th>
+					<th>Action</th>
+					</tr>
+				</thead>
+				
+				<tbody>
+					
+					{% for user in users %}
+					
+						<tr>
+							<td>{{ user.id }}</td>
+							<td>{{ user.username }}</td>
+							<td>{{ user.email }}</td>
+
+                            {% if user.enabled %}
+							    <td><span class="badge badge-pill badge-success">ACTIVE</span></td>
+                            {% else %}
+                                <td><span class="badge badge-pill badge-danger">InACTIVE</span></td>
+                            {% endif %}
+
+							<td>
+                                <a href="/admin/user/{{ user.id }}"><span class="badge badge-pill badge-warning">View</span></a>
+								<a href="/admin/user/delete/{{ user.id }}"><span class="badge badge-pill badge-danger">Delete</span></a>
+                            </td>
+						</tr>
+
+					{% else %}
+
+						<div class="alert alert-dismissible alert-warning">
+							<h4 class="alert-heading">Oops !!</h4>
+							<p class="mb-0">Records are not found in the database...!!</p>
+						</div>
+
+					{% endfor %}
+
+				</tbody>
+			</table> 
+		</div>
+	
+	</div>
+{{ include('Backend/layout/footer.html.twig') }}

@@ -23,7 +23,7 @@ security:
             anonymous: true
             remember_me: 
                 secret: '%kernel.secret%'
-            
+                path: /
             # activate different ways to authenticate
 
             # http_basic: true
@@ -38,5 +38,5 @@ security:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/, role: ROLE_ADMIN }  
+        - { path: ^/admin, role: ROLE_ADMIN }  
         - { path: ^/post/, role: ROLE_USER }
