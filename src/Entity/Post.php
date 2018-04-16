@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
@@ -18,16 +19,27 @@ class Post
 
     /**
      * @ORM\Column(type="text")
+     * 
+     * @Assert\NotBlank()
+     * @Assert\Length(min=5)
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * 
+     * @Assert\NotBlank()
+     * @Assert\Length(min=15)
      */
     private $description;
 
     /**
      * @ORM\Column(type="integer")
+     * 
+     * @Assert\GreaterThan(
+     *      value = 0,
+     *      message = "Please select a category."    
+     * ) 
      */
     private $category;
 
