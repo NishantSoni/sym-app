@@ -1,15 +1,19 @@
-{% for success_message in app.session.flashbag.get('success_flash') %}
+<div class="container-fluid">
 
-	<div class="alert alert-dismissible alert-success">
-	  <strong>{{success_message}}</strong>
-	</div>
+	{% for success_message in app.session.flashbag.get('success_flash') %}
 
-{% endfor %}
+		<div class="alert alert-dismissible alert-success">
+		  <strong>{{success_message}}</strong>
+		</div>
 
-{% for error_message in app.session.flashbag.get('error_flash') %}
+	{% endfor %}
 
-	<div class="alert alert-dismissible alert-danger">
-	  <strong>{{error_message}}</strong>
-	</div>
+	{% for error_message in app.session.flashbag.get('error_flash') %}
 
-{% endfor %}
+		<div class="alert alert-dismissible alert-danger">
+		  <strong>{{error_message}}</strong>
+		</div>
+
+	{% endfor %}
+
+</div>
